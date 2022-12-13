@@ -1,4 +1,4 @@
-# kulineran
+# Sample-project
 
 ## Project setup
 ```
