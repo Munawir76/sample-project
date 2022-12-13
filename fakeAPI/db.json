@@ -1,0 +1,81 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "nama": "Afrizal",
+      "email": "afirazal@hot.com",
+      "hp": 98978797988,
+      "alamat": "bekasi"
+    },
+    {
+      "id": 2,
+      "nama": "Wahyu",
+      "email": "wahyu@hot.com",
+      "hp": "9394722020",
+      "alamat": "Bandung"
+    },
+    {
+      "id": 3,
+      "nama": "Putri",
+      "email": "putri@hot.com",
+      "hp": "425678683636",
+      "alamat": "Jepara"
+    },
+    {
+      "nama": "Dwi meinaki",
+      "email": "dwi@hot.com",
+      "hp": "89823112889898",
+      "alamat": "Sukabumi",
+      "id": 4
+    },
+    {
+      "id": 5,
+      "nama": "Anita",
+      "email": "anita@hot.com",
+      "hp": 9845397988,
+      "alamat": "bekasi"
+    },
+    {
+      "id": 7,
+      "nama": "Alinda",
+      "email": "alinda@hot.com",
+      "hp": "425678683636",
+      "alamat": "jepang"
+    },
+    {
+      "nama": "Zonya marhaena",
+      "email": "zonya@hot.com",
+      "hp": "89823112889898",
+      "alamat": "Jakarta",
+      "id": 8
+    },
+    {
+      "email": "kaesang@hot.com",
+      "nama": "Kaesang putera tanjung",
+      "hp": "983738363232",
+      "alamat": "Surakarta",
+      "id": 10
+    },
+    {
+      "email": "nabil@hot.com",
+      "nama": "Nabil lanten",
+      "hp": "82892327392",
+      "alamat": "Depok",
+      "id": 12
+    },
+    {
+      "email": "faizal@hot.com",
+      "nama": "Faizal lanten",
+      "hp": "089726267181572",
+      "alamat": "Depok",
+      "id": 13
+    },
+    {
+      "email": "galuh@hot.com",
+      "nama": "Galuh gunawan",
+      "hp": "09872783773",
+      "alamat": "Pekan baru",
+      "id": 14
+    }
+  ]
+}
