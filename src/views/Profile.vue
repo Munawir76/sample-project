@@ -7,6 +7,7 @@
           <template>
             <router-link to="/tambah/">
               <b-button size="sm" class="mr-1 btn mb-3">
+                <b-icon icon="plus"></b-icon>
                 Tambah Data
               </b-button>
             </router-link>
@@ -15,25 +16,47 @@
             <template #cell(actions)="row">
               <router-link :to="'/edit/' + row.item.id">
                 <b-button size="sm" class="mr-1 btn btn-warning mr-3">
-                  Edit
+                  <b-icon icon="pencil-square"></b-icon> Edit
                 </b-button>
               </router-link>
-              <b-button
-                size="sm"
-                variant="danger"
-                @click="deleteData(row.item.id)"
-              >
-                Hapus
+              <b-button size="sm" variant="danger" @click="showModal">
+                <b-icon icon="trash"></b-icon> Hapus
               </b-button>
+              <b-modal
+                ref="my-modal"
+                hide-footer
+                title="Konfirmasi Penghapusan"
+              >
+                <div class="d-block text-center">
+                  <h3>Yakin anda ingin hapus dana ini ?</h3>
+                </div>
+                <b-row>
+                  <b-col
+                    ><b-button
+                      class="mt-5"
+                      variant="outline-danger"
+                      block
+                      @click="deleteData(row.item.id)"
+                      >Oke</b-button
+                    ></b-col
+                  >
+                  <b-col
+                    ><b-button
+                      class="mt-5"
+                      variant="outline-warning"
+                      block
+                      @click="hideModal"
+                      >Batal</b-button
+                    ></b-col
+                  >
+                </b-row>
+              </b-modal>
             </template>
           </b-table>
         </div>
       </template>
     </div>
-    <div class="footer">
-      <!-- <Footer /> -->
-      <b-alert variant="success" show> Success Alert </b-alert>;
-    </div>
+    <div class="footer"></div>
   </div>
 </template>
 
@@ -77,24 +100,7 @@ export default {
         },
       ],
       products: [],
-      form: {
-        title: this.name,
-        body: this.deskripsi,
-      },
     };
-  },
-  methods: {
-    setProducts(data) {
-      this.products = data;
-    },
-    deleteData(id) {
-      axios
-        .delete("http://localhost:3000/posts/" + id)
-        .then((response) => {
-          this.setProducts(response.data);
-        })
-        .catch((error) => console.log(error, "ini error"));
-    },
   },
   mounted() {
     axios
@@ -104,6 +110,47 @@ export default {
         console.log(response?.data, "ini respon");
       })
       .catch((error) => console.log(error, "ini error"));
+  },
+  methods: {
+    getData() {
+      axios
+        .get("http://localhost:3000/posts")
+        .then((response) => {
+          this.setProducts(response.data);
+          console.log(response?.data, "ini respon");
+        })
+        .catch((error) => console.log(error, "ini error"));
+    },
+    setProducts(data) {
+      this.products = data;
+    },
+    deleteData(id) {
+      // axios
+      //   .delete("http://localhost:3000/posts/" + id)
+      //   .then((response) => {
+      //     this.$refs["my-modal"].hide();
+      //     this.$swal({
+      //       icon: "success",
+      //       title: "Delete Successfull",
+      //     });
+      //     this.getData();
+      //     console.log(response, "ini respon delete");
+      //   })
+      //   .catch((error) => {
+      //     console.log(error, "ini error");
+      //   });
+      console.log(id, "ininini");
+    },
+
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
+  },
+  created() {
+    this.products();
   },
 };
 </script>

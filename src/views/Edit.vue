@@ -3,14 +3,14 @@
     <Navbar />
     <div class="container mt-5">
       <b-card title="Edit Data">
-        <b-form @submit="submitEdit">
+        <b-form @submit.prevent="submitEdit">
           <b-row class="my-1">
             <b-col sm="3">
               <label for="input-none">Nama :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.nama"
+                v-model="dataById.nama"
                 id="input-none"
                 placeholder="Masukan Nama"
               ></b-form-input>
@@ -22,7 +22,7 @@
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.email"
+                v-model="dataById.email"
                 id="input-none"
                 placeholder="Masukan email anda"
               ></b-form-input>
@@ -34,7 +34,7 @@
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.noHp"
+                v-model="dataById.hp"
                 id="input-none"
                 placeholder="Masukan No. HP"
               ></b-form-input>
@@ -46,7 +46,7 @@
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.alamat"
+                v-model="dataById.alamat"
                 id="input-none"
                 placeholder="Masukan Alamat"
               ></b-form-input>
@@ -63,6 +63,7 @@
             </b-button>
           </div>
         </b-form>
+        <router-link to="/profile" id="router"> </router-link>
       </b-card>
     </div>
   </div>
@@ -71,21 +72,16 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import axios from "axios";
+import router from "../router";
 
 export default {
   name: "Edit",
   components: {
     Navbar,
   },
-
   data() {
     return {
-      form: {
-        email: "this.data.email",
-        nama: "this.data.nama",
-        noHp: "this.data.noHp",
-        alamat: "this.data.alamat",
-      },
+      dataById: {},
     };
   },
   methods: {
@@ -94,18 +90,28 @@ export default {
     },
     submitEdit() {
       const edit = {
-        email: this.form.email,
-        nama: this.form.nama,
-        hp: this.form.noHp,
-        alamat: this.form.alamat,
+        email: this.dataById.email,
+        nama: this.dataById.nama,
+        hp: this.dataById.hp,
+        alamat: this.dataById.alamat,
       };
       console.log(this.$route.params.id, "ini paramnya");
       axios
         .put("http://localhost:3000/posts/" + this.$route.params.id, edit)
         .then((response) => {
+          this.showAlert();
           console.log(response, "ini respon");
         })
-        .catch((error) => console.log(error, "ini error"));
+        .catch((error) => console.log(error, "ini errornyaa"));
+    },
+    showAlert() {
+      this.$swal({
+        icon: "success",
+        title: "Edit Successfull",
+      });
+      setTimeout(() => {
+        router.push("/profile");
+      }, 2000);
     },
   },
   mounted() {
@@ -115,7 +121,7 @@ export default {
         this.setDataById(response.data);
         console.log(response?.data, "ini data by id");
       })
-      .catch((error) => console.log(error, "ini error"));
+      .catch((error) => console.log(error, "ini error by id"));
   },
 };
 </script>
