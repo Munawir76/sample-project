@@ -108,10 +108,7 @@ export default {
       this.$swal({
         icon: "success",
         title: "Edit Successfull",
-      });
-      setTimeout(() => {
-        router.push("/profile");
-      }, 2000);
+      }).then(() => router.push("/profile"));
     },
   },
   mounted() {

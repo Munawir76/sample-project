@@ -5,6 +5,8 @@ import Product from '../views/Product.vue'
 import Profile from '../views/Profile.vue'
 import Edit from '../views/Edit.vue'
 import Tambah from '../views/Tambah.vue'
+import Regist from '../views/Regist.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,16 @@ Vue.use(VueRouter)
     path: '/tambah',
     name: 'Tambah',
     component: Tambah
+  },
+  {
+    path: '/regist',
+    name: 'Regist',
+    component: Regist
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/edit/:id',

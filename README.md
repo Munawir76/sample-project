@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-# Sample Project
-=======
 # Sample-project
->>>>>>> d535e8d76b043381fbf1f5b0b8ce8982c5322e3f
+
+Sample project adalah, project yang dibuat untuk latihan membuat sebuah marketplace dengan menggunakan Framework VueJs.
 
 ## Project setup
 

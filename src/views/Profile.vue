@@ -63,7 +63,7 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import axios from "axios";
-// import Footer from "../components/Footer.vue";
+import router from "../router";
 
 export default {
   name: "Profile",
@@ -74,24 +74,24 @@ export default {
   data() {
     return {
       fields: [
+        // {
+        //   key: "id",
+        //   label: "Nomor",
+        // },
         {
-          key: "id",
-          label: "Nomor",
-        },
-        {
-          key: "nama",
+          key: "menu",
           label: "Nama",
         },
         {
-          key: "email",
+          key: "price",
           label: "E-mail",
         },
         {
-          key: "alamat",
+          key: "description",
           label: "Alamat",
         },
         {
-          key: "hp",
+          key: "category.category",
           label: "No. HP",
         },
         {
@@ -101,15 +101,6 @@ export default {
       ],
       products: [],
     };
-  },
-  mounted() {
-    axios
-      .get("http://localhost:3000/posts")
-      .then((response) => {
-        this.setProducts(response.data);
-        console.log(response?.data, "ini respon");
-      })
-      .catch((error) => console.log(error, "ini error"));
   },
   methods: {
     getData() {
@@ -121,24 +112,25 @@ export default {
         })
         .catch((error) => console.log(error, "ini error"));
     },
+
     setProducts(data) {
       this.products = data;
     },
     deleteData(id) {
-      // axios
-      //   .delete("http://localhost:3000/posts/" + id)
-      //   .then((response) => {
-      //     this.$refs["my-modal"].hide();
-      //     this.$swal({
-      //       icon: "success",
-      //       title: "Delete Successfull",
-      //     });
-      //     this.getData();
-      //     console.log(response, "ini respon delete");
-      //   })
-      //   .catch((error) => {
-      //     console.log(error, "ini error");
-      //   });
+      axios
+        .delete("http://localhost:3000/posts/" + id)
+        .then((response) => {
+          this.$refs["my-modal"].hide();
+          this.$swal({
+            icon: "success",
+            title: "Delete Successfull",
+          });
+          this.getData();
+          console.log(response, "ini respon delete");
+        })
+        .catch((error) => {
+          console.log(error, "ini error");
+        });
       console.log(id, "ininini");
     },
 
@@ -148,6 +140,31 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+  },
+  mounted() {
+    if (localStorage.getItem("tokenAdmin")) {
+      axios
+        .get("http://localhost:3000/menu", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          this.setProducts(response.data.data);
+          console.log(response, "ini respon");
+        })
+        .catch((error) => console.log(error, "ini error"));
+    } else if (
+      !localStorage.getItem("tokenAdmin") ||
+      !localStorage.getItem("tokenCustomer")
+    ) {
+      return this.$swal({
+        icon: "error",
+        title: "Access failed",
+      }).then(() => {
+        router.back();
+      });
+    }
   },
   created() {
     this.products();

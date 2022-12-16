@@ -8,18 +8,32 @@
       "alamat": "bekasi"
     },
     {
-      "email": "fgdfg",
-      "nama": "gfdgdfg",
-      "hp": "4543543",
-      "alamat": "gfdgfdg",
+      "email": "dwi@hot.com",
+      "nama": "Dwi Meinaki",
+      "hp": "098383927829",
+      "alamat": "Sukabumi",
       "id": 2
     },
     {
-      "email": "jhkjdhfjhsd",
-      "nama": "kuntul",
-      "hp": "736487362846",
-      "alamat": "jdfkdbskj",
+      "email": "ariel@hot.com",
+      "nama": "Ariel Ashari",
+      "hp": "089389279279",
+      "alamat": "Depok",
       "id": 3
+    },
+    {
+      "email": "galuh@hot.com",
+      "nama": "Galuh galuh",
+      "hp": "08928937929",
+      "alamat": "Ponorogo",
+      "id": 4
+    },
+    {
+      "email": "ariel@hot.com",
+      "nama": "Ariel",
+      "hp": "08983478337",
+      "alamat": "Bojong",
+      "id": 5
     }
   ]
 }

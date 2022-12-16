@@ -12,13 +12,16 @@
             img-height="480"
           >
             <b-carousel-slide
-              img-src="https://thumbor.sirclocdn.com/unsafe/883x368/filters:format(webp)/magento.eigeradventure.com/media/weltpixel/owlcarouselslider/images/1/8/1800x750_new_arrival.jpg"
+              img-src="https://thumbor.sirclocdn.com/unsafe/883x368/filters:format(webp)/magento.eigeradventure.com/media/weltpixel/owlcarouselslider/images/m/a/main_banner_1800x750_29.jpg"
             ></b-carousel-slide>
             <b-carousel-slide
               img-src="https://thumbor.sirclocdn.com/unsafe/883x368/filters:format(webp)/magento.eigeradventure.com/media/weltpixel/owlcarouselslider/images/m/a/main_banner_1800x750_2_.jpg"
             ></b-carousel-slide>
             <b-carousel-slide
               img-src="https://thumbor.sirclocdn.com/unsafe/883x368/filters:format(webp)/magento.eigeradventure.com/media/weltpixel/owlcarouselslider/images/m/a/main_banner_1800x750_29.jpg"
+            ></b-carousel-slide>
+            <b-carousel-slide
+              img-src="https://thumbor.sirclocdn.com/unsafe/883x368/filters:format(webp)/magento.eigeradventure.com/media/weltpixel/owlcarouselslider/images/m/a/main_banner_1800x750_2_.jpg"
             ></b-carousel-slide>
           </b-carousel>
         </b-col>

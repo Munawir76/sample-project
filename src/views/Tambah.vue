@@ -6,11 +6,11 @@
         <b-form @submit.stop.prevent="submitAdd">
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">Nama :</label>
+              <label for="input-none">Nama menu :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.nama"
+                v-model="form.menu"
                 id="input-none"
                 placeholder="Masukan Nama"
               ></b-form-input>
@@ -18,11 +18,11 @@
           </b-row>
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">Email :</label>
+              <label for="input-none">Price :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.email"
+                v-model="form.price"
                 id="input-none"
                 placeholder="Masukan email anda"
               ></b-form-input>
@@ -30,29 +30,53 @@
           </b-row>
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">No. HP:</label>
+              <label for="input-none">Category :</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input
-                :validate="true"
-                v-model="form.noHp"
-                id="input-none"
-                placeholder="Masukan No. HP"
-              ></b-form-input>
+              <b-form-select
+                v-model="form.category_id"
+                :options="options"
+              ></b-form-select>
             </b-col>
           </b-row>
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">Alamat:</label>
+              <label for="input-none">Deskripsi :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="form.alamat"
+                v-model="form.description"
                 id="input-none"
                 placeholder="Masukan Alamat"
               ></b-form-input>
             </b-col>
           </b-row>
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-none">Durasi :</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input
+                v-model="form.duration"
+                id="input-none"
+                placeholder="Masukan Alamat"
+              ></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-image">Image :</label>
+            </b-col>
+            <b-col sm="9">
+              <b-input-group>
+                <b-input-group-prepend is-text>
+                  <b-icon icon="image-fill"></b-icon>
+                </b-input-group-prepend>
+                <b-form-file id="form-image" v-model="form.image"></b-form-file>
+              </b-input-group>
+            </b-col>
+          </b-row>
+
           <b-row class="text-center mt-5">
             <b-col></b-col>
             <b-col cols="0">
@@ -87,50 +111,71 @@ export default {
   },
   data() {
     return {
-      form: {
-        email: null,
-        nama: "",
-        noHp: null,
-        alamat: null,
+      setImageUpload(data) {
+        this.imageUpload = data;
       },
+      form: {
+        price: null,
+        menu: null,
+        category_id: null,
+        image: null,
+        duration: null,
+        description: null,
+      },
+      options: [
+        { value: "16ff4f67-e761-445e-80a6-70c2ea4b37d1", text: "Mingguan" },
+        { value: "09c2be7e-beac-438d-a5a6-566b64f8841b", text: "Bulanan" },
+      ],
     };
   },
   methods: {
     submitAdd() {
-      if (this.validation) {
-        const tambah = {
-          email: this.form.email,
-          nama: this.form.nama,
-          hp: this.form.noHp,
-          alamat: this.form.alamat,
-        };
-        axios
-          .post("http://localhost:3000/posts", tambah)
-          .then((response) => {
-            this.showAlert();
-            console.log(response, "ini respon");
-          })
-          .catch((error) => console.log(error, "ini error"));
-      } else {
-        this.$swal({
-          icon: "error",
-          title: "Data tidak lengkap",
-        });
-      }
+      const form = new FormData();
+      // FormData.A = this.form.image;
+      form.append("file", this.form.image);
+      const token = localStorage.getItem("tokenAdmin");
+      console.log(form, "ini upload");
+      axios
+        .post("http://localhost:3000/file/upload", form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response, "ini respon");
+          this.setImageUpload(response.data.data.filename);
+          const tambah = {
+            price: this.form.price,
+            menu: this.form.menu,
+            category_id: this.form.category_id,
+            image: this.imageUpload,
+            duration: this.form.duration,
+            description: this.form.description,
+          };
+          console.log(tambah, "ini datanya");
+          axios
+            .post("http://localhost:3000/menu/create/", tambah, {
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, //Add this line
+              },
+            })
+            .then((response) => {
+              this.showAlert();
+              console.log(response, "ini respon data");
+            })
+            .catch((error) => console.log(error, "ini error post datanya"));
+          console.log(response, "ini respon");
+        })
+        .catch((error) => console.log(error, "ini error upload image"));
     },
     showAlert() {
       this.$swal({
         icon: "success",
         title: "Add Successfull",
-      });
-      setTimeout(() => {
-        router.push("/profile");
-      }, 2000);
-    },
-  },
-  computed: {
-    validation() {
-      return this.form.nama.length > 0;
+      }).then(() => router.push("/profile"));
     },
   },
 };
