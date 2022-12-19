@@ -31,22 +31,35 @@
       </div>
       <b-row class="content">
         <b-col cols="4" v-for="data in products" :key="data.id">
-          <div class="card shadow card-product mb-5">
-            <img :src="data.image" class="card-img-top" alt="..." width="60%" />
+          <div class="card shadow card-product">
+            <img
+              :src="'http://localhost:3000/file/' + data.image"
+              class="card-img-top"
+              alt="..."
+              width="60%"
+            />
             <div class="card-body">
               <h5 class="card-title">
                 <strong>{{ data.menu }}</strong>
               </h5>
               <h5 class="">Deskripsi : {{ data.description }}</h5>
-              <h6 class="card-text">Harga : $ {{ data.price }}</h6>
-
-              <router-link class="btn btn-success" :to="'/product/'"
-                ><b-icon-cart></b-icon-cart> Pesan</router-link
-              >
             </div>
+            <b-row>
+              <b-col>
+                <div class="card-body">
+                  <h6 class="card-text">Harga : $ {{ data.price }}</h6>
+                </div>
+              </b-col>
+              <b-col cols="5" class="cart">
+                <router-link class="btn btn-success" :to="'/product/'">
+                  <b-icon-cart /> Pesan</router-link
+                >
+              </b-col>
+            </b-row>
           </div>
         </b-col>
       </b-row>
+
       <b-modal ref="my-modal" hide-footer title="Peringatan !">
         <div class="d-block text-center">
           <h3>Anda harus login terlebih dahulu</h3>
@@ -117,12 +130,17 @@ export default {
 .card-product {
   border-radius: 15px;
   justify-content: start;
-  height: 840px;
+  height: 540px;
 }
 
 h6 {
   color: green;
   font-weight: bold;
+}
+
+.cart {
+  display: flex;
+  align-items: center;
 }
 
 .content {

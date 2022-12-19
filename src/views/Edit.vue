@@ -6,11 +6,11 @@
         <b-form @submit.prevent="submitEdit">
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">Nama :</label>
+              <label for="input-none">Nama menu :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="dataById.nama"
+                v-model="dataById.menu"
                 id="input-none"
                 placeholder="Masukan Nama"
               ></b-form-input>
@@ -18,38 +18,44 @@
           </b-row>
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">Email :</label>
+              <label for="input-none">Price :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="dataById.email"
+                v-model="dataById.price"
                 id="input-none"
                 placeholder="Masukan email anda"
               ></b-form-input>
             </b-col>
           </b-row>
+
           <b-row class="my-1">
             <b-col sm="3">
-              <label for="input-none">No. HP:</label>
+              <label for="input-none">Deskripsi :</label>
             </b-col>
             <b-col sm="9">
               <b-form-input
-                v-model="dataById.hp"
-                id="input-none"
-                placeholder="Masukan No. HP"
-              ></b-form-input>
-            </b-col>
-          </b-row>
-          <b-row class="my-1">
-            <b-col sm="3">
-              <label for="input-none">Alamat:</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-input
-                v-model="dataById.alamat"
+                v-model="dataById.description"
                 id="input-none"
                 placeholder="Masukan Alamat"
               ></b-form-input>
+            </b-col>
+          </b-row>
+
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-image">Image :</label>
+            </b-col>
+            <b-col sm="9">
+              <b-input-group>
+                <b-input-group-prepend is-text>
+                  <b-icon icon="image-fill"></b-icon>
+                </b-input-group-prepend>
+                <b-form-file
+                  id="form-image"
+                  v-model="dataById.image"
+                ></b-form-file>
+              </b-input-group>
             </b-col>
           </b-row>
           <div class="botom">
@@ -74,6 +80,8 @@ import Navbar from "../components/Navbar.vue";
 import axios from "axios";
 import router from "../router";
 
+const token = localStorage.getItem("tokenAdmin");
+
 export default {
   name: "Edit",
   components: {
@@ -82,6 +90,9 @@ export default {
   data() {
     return {
       dataById: {},
+      setImageUpload(data) {
+        this.imageUpload = data;
+      },
     };
   },
   methods: {
@@ -89,20 +100,44 @@ export default {
       this.dataById = data;
     },
     submitEdit() {
-      const edit = {
-        email: this.dataById.email,
-        nama: this.dataById.nama,
-        hp: this.dataById.hp,
-        alamat: this.dataById.alamat,
-      };
-      console.log(this.$route.params.id, "ini paramnya");
+      const form = new FormData();
+      form.append("file", this.dataById.image);
+      console.log(form, "ini upload");
       axios
-        .put("http://localhost:3000/posts/" + this.$route.params.id, edit)
-        .then((response) => {
-          this.showAlert();
-          console.log(response, "ini respon");
+        .post("http://localhost:3000/file/upload", form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .catch((error) => console.log(error, "ini errornyaa"));
+        .then((respon) => {
+          console.log(respon.data.data, "ini respon image");
+          this.setImageUpload(respon.data.data.filename);
+          const edit = {
+            price: this.dataById.price,
+            menu: this.dataById.menu,
+            image: this.imageUpload,
+            description: this.dataById.description,
+          };
+          console.log(this.$route.params.id, "ini paramnya");
+          axios
+            .put(
+              "http://localhost:3000/menu/edit/" + this.$route.params.id,
+              edit,
+              {
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`, //Add this line
+                },
+              }
+            )
+            .then((response) => {
+              this.showAlert();
+              console.log(response, "ini respon");
+            })
+            .catch((error) => console.log(error, "ini errornyaa"));
+        });
     },
     showAlert() {
       this.$swal({
@@ -113,10 +148,10 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/posts/" + this.$route.params.id)
+      .get("http://localhost:3000/menu/" + this.$route.params.id)
       .then((response) => {
-        this.setDataById(response.data);
-        console.log(response?.data, "ini data by id");
+        this.setDataById(response.data.data);
+        console.log(response?.data.data, "ini data by id");
       })
       .catch((error) => console.log(error, "ini error by id"));
   },

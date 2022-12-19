@@ -88,6 +88,7 @@ export default {
         })
         .then((response) => {
           const decode = jwt_decode(response?.data?.access_token);
+          localStorage.setItem("user", decode?.name);
           if (decode.role === "Admin") {
             localStorage.setItem("tokenAdmin", response?.data?.access_token);
             this.$swal({
@@ -102,7 +103,7 @@ export default {
             }).then(() => router.push("/product"));
           }
 
-          console.log(response, "ini respon");
+          console.log(response, "ini respon login");
         })
         .catch((error) => console.log(error, "ini error"));
     },

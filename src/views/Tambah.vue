@@ -131,10 +131,9 @@ export default {
   methods: {
     submitAdd() {
       const form = new FormData();
-      // FormData.A = this.form.image;
       form.append("file", this.form.image);
       const token = localStorage.getItem("tokenAdmin");
-      console.log(form, "ini upload");
+      // console.log(form, "ini upload");
       axios
         .post("http://localhost:3000/file/upload", form, {
           headers: {

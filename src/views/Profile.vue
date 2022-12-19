@@ -65,6 +65,8 @@ import Navbar from "@/components/Navbar.vue";
 import axios from "axios";
 import router from "../router";
 
+const token = localStorage.getItem("tokenAdmin");
+
 export default {
   name: "Profile",
   components: {
@@ -74,25 +76,21 @@ export default {
   data() {
     return {
       fields: [
-        // {
-        //   key: "id",
-        //   label: "Nomor",
-        // },
         {
           key: "menu",
           label: "Nama",
         },
         {
           key: "price",
-          label: "E-mail",
+          label: "Harga",
         },
         {
           key: "description",
-          label: "Alamat",
+          label: "Deskripsi",
         },
         {
           key: "category.category",
-          label: "No. HP",
+          label: "Kategori",
         },
         {
           key: "actions",
@@ -105,20 +103,29 @@ export default {
   methods: {
     getData() {
       axios
-        .get("http://localhost:3000/posts")
+        .get("http://localhost:3000/menu", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
-          this.setProducts(response.data);
+          this.setProducts(response.data.data);
           console.log(response?.data, "ini respon");
         })
         .catch((error) => console.log(error, "ini error"));
     },
-
     setProducts(data) {
       this.products = data;
     },
     deleteData(id) {
       axios
-        .delete("http://localhost:3000/posts/" + id)
+        .delete("http://localhost:3000/menu/" + id, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, //Add this line
+          },
+        })
         .then((response) => {
           this.$refs["my-modal"].hide();
           this.$swal({
