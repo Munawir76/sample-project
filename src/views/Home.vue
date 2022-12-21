@@ -14,12 +14,19 @@
         </div>
       </div>
       <hr />
-      <Category />
-      <!-- <hr class="mt-5" /> -->
       <div class="row landing-page">
-        <div>
-          <Menu />
-        </div>
+        <b-row class="content">
+          <b-col cols="2" v-for="data in category" :key="data.id">
+            <CardCategory :data="data" />
+          </b-col>
+        </b-row>
+      </div>
+      <div class="row landing-page">
+        <b-row class="content">
+          <b-col cols="3" v-for="data in products" :key="data.id">
+            <CardProduct :data="data" />
+          </b-col>
+        </b-row>
       </div>
       <div class="mt-10"><history-profile /></div>
     </div>
@@ -29,25 +36,49 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
 import Hero from "@/components/Hero.vue";
-import Menu from "../components/Menu.vue";
-import Category from "@/components/Category.vue";
+import CardCategory from "../components/reusable/CardCategory";
 import HistoryProfile from "../components/HistoryProfile.vue";
 import Steps from "../components/Steps.vue";
 import Footer from "../components/Footer.vue";
+import CardProduct from "../components/reusable/CardProduct.vue";
+import axios from "axios";
+import dataCategory from "../constant/data-category";
+
+const category = dataCategory;
+// console.log(category, "ini cat");
 
 export default {
   name: "Home",
   components: {
     Navbar,
     Hero,
-    Menu,
-    Category,
+    CardCategory,
     HistoryProfile,
     Steps,
     Footer,
+    CardProduct,
+  },
+  data() {
+    return {
+      products: [],
+      category: category,
+    };
+  },
+  methods: {
+    setProducts(data) {
+      this.products = data;
+    },
+  },
+  mounted() {
+    axios
+      .get("http://localhost:3000/menu")
+      .then((response) => {
+        this.setProducts(response?.data?.data);
+        // console.log(response?.data?.data, "ini respon");
+      })
+      .catch((error) => console.log(error, "ini error"));
   },
 };
 </script>
@@ -55,5 +86,10 @@ export default {
 <style>
 .landing-page {
   padding: 3rem;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
 }
 </style>

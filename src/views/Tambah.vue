@@ -76,7 +76,6 @@
               </b-input-group>
             </b-col>
           </b-row>
-
           <b-row class="text-center mt-5">
             <b-col></b-col>
             <b-col cols="0">

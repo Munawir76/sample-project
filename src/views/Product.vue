@@ -29,34 +29,10 @@
           </div>
         </div>
       </div>
+
       <b-row class="content">
         <b-col cols="4" v-for="data in products" :key="data.id">
-          <div class="card shadow card-product">
-            <img
-              :src="'http://localhost:3000/file/' + data.image"
-              class="card-img-top"
-              alt="..."
-              width="60%"
-            />
-            <div class="card-body">
-              <h5 class="card-title">
-                <strong>{{ data.menu }}</strong>
-              </h5>
-              <h5 class="">Deskripsi : {{ data.description }}</h5>
-            </div>
-            <b-row>
-              <b-col>
-                <div class="card-body">
-                  <h6 class="card-text">Harga : $ {{ data.price }}</h6>
-                </div>
-              </b-col>
-              <b-col cols="5" class="cart">
-                <router-link class="btn btn-success" :to="'/product/'">
-                  <b-icon-cart /> Pesan</router-link
-                >
-              </b-col>
-            </b-row>
-          </div>
+          <CardProduct :data="data" />
         </b-col>
       </b-row>
 
@@ -86,12 +62,14 @@ import Navbar from "@/components/Navbar.vue";
 import axios from "axios";
 import Footer from "../components/Footer.vue";
 import router from "../router";
+import CardProduct from "../components/reusable/CardProduct.vue";
 
 export default {
   name: "Product",
   components: {
     Navbar,
     Footer,
+    CardProduct,
   },
   data() {
     return {
